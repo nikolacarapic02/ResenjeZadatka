@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "psr-4": {
+            "config\\":"config/",
+            "models\\":"models/"
+        },
+        "files" : ["includes/HTTPStatus.php"]
+    },
+
+    "require": {
+        "fzaninotto/faker": "^1.5"
+    }
+}
