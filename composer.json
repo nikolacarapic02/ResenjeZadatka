@@ -2,9 +2,9 @@
     "autoload": {
         "psr-4": {
             "config\\":"config/",
-            "models\\":"models/"
-        },
-        "files" : ["includes/HTTPStatus.php"]
+            "models\\":"models/",
+            "includes\\":"includes/"
+        }
     },
 
     "require": {

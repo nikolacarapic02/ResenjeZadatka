@@ -1,8 +1,7 @@
 <?php
 
 use models\PraktikantClass;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 //Headers
 header("Access-Control-Allow-Origin: *");
@@ -13,9 +12,11 @@ require __DIR__."/../../vendor/autoload.php";
 
 try{
 
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "GET")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTPP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTPP Request Method")));
     }
     else
     {
@@ -53,7 +54,7 @@ try{
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(404,"Praktikant Not Found")));
+            throw new Exception(json_encode($err::status(404,"Praktikant Not Found")));
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use config\DB;
+use includes\HTTPStatus;
 use models\MentorClass;
 
 use function includes\HTTPStatus;
@@ -14,9 +15,11 @@ require __DIR__."/../../vendor/autoload.php";
 
 try{
 
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "GET")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTTP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
     }
     else
     {
@@ -25,7 +28,7 @@ try{
 
         $obj = new MentorClass($db);
 
-        $obj->id = isset($_GET["id"])? $_GET["id"] : throw new Exception(json_encode(HTTPStatus(404,"Id is not set!!")));
+        $obj->id = isset($_GET["id"])? $_GET["id"] : throw new Exception(json_encode($err::status(404,"Id is not set!!")));
 
         $obj->readSingle();
 

@@ -2,8 +2,7 @@
 
 use config\DB;
 use models\MentorClass;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 //Headers
 header("Access-Control-Allow-Origin:*");
@@ -13,9 +12,12 @@ header("Access-Control-Allow-Methods: PUT");
 require __DIR__."/../../vendor/autoload.php";
 
 try{
+
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "PUT")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTTP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
     }
     else
     {
@@ -32,7 +34,7 @@ try{
 
         if($obj->createKomentar())
         {
-            echo json_encode(HTTPStatus(200,"Komentar Created"));
+            echo json_encode($err::status(200,"Komentar Created"));
         }
         else
         {

@@ -6,14 +6,14 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
 {
-    public static $files = array (
-        'e72de4ce3de17812d90c949ecb1fa863' => __DIR__ . '/../..' . '/includes/HTTPStatus.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'm' => 
         array (
             'models\\' => 7,
+        ),
+        'i' => 
+        array (
+            'includes\\' => 9,
         ),
         'c' => 
         array (
@@ -29,6 +29,10 @@ class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
         'models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/models',
+        ),
+        'includes\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/includes',
         ),
         'config\\' => 
         array (

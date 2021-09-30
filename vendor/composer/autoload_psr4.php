@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'models\\' => array($baseDir . '/models'),
+    'includes\\' => array($baseDir . '/includes'),
     'config\\' => array($baseDir . '/config'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

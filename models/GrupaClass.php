@@ -6,8 +6,7 @@ use models\PravilaInterface;
 use Exception;
 use models\AbstractPravila;
 use PDOException;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 class GrupaClass extends AbstractPravila implements PravilaInterface
 {
@@ -24,6 +23,9 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $praktikanti;
     private $pozicija;
     private $redni_broj;
+
+    //Error-handler
+    private $err;
 
     //Construct with DB
     public function __construct($db)
@@ -46,7 +48,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Read "grupe"
     public function read()
     {
-        
+        $this->err = new HTTPStatus();
 
         $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.ime, ' ', p.prezime)),'') as 'praktikanti', 
         GROUP_CONCAT(DISTINCT(CONCAT(m.ime, ' ', m.prezime)),'') as 'mentori' FROM ".$this->table." g, 
@@ -68,6 +70,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Read-Single "grupe"
     public function readSingle()
     {
+        $this->err = new HTTPStatus();
+
         $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.ime, ' ', p.prezime)),'') as 'praktikanti', 
         GROUP_CONCAT(DISTINCT(CONCAT(m.ime, ' ', m.prezime)),'') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe AND g.id = :id
@@ -90,7 +94,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
             }
             else
             {
-                throw new Exception(json_encode(HTTPStatus(404, "Id doesn't exist!!")));
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
             }
         }
         else
@@ -102,6 +106,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Create "grupe"
     public function create()
     {
+        $this->err = new HTTPStatus();
+
         $query = "INSERT INTO ".$this->table." SET naziv = :naziv";
 
         $stmt = $this->conn->prepare($query);
@@ -112,7 +118,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         if(empty($this->naziv))
         {
-            throw new Exception(json_encode(HTTPStatus(409, "All columns must have a value!!"))); 
+            throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!"))); 
         }
         else 
         {
@@ -130,6 +136,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Update "grupe"
     public function update()
     {
+        $this->err = new HTTPStatus();
+
         $query = "UPDATE ".$this->table." SET naziv = :naziv 
         WHERE id = :id";
 
@@ -152,7 +160,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
             }
             else
             {
-                throw new Exception(json_encode(HTTPStatus(404, "Id doesn't exist!!")));
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
             }
         }
         else
@@ -164,6 +172,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Delete "grupe"
     public function delete()
     {
+        $this->err = new HTTPStatus();
+
         $query = "DELETE FROM ".$this->table." WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
@@ -188,7 +198,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(404,"Id doesn't exist!!")));
+            throw new Exception(json_encode($this->err::status(404,"Id doesn't exist!!")));
         }
     }
 

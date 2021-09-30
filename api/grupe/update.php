@@ -2,8 +2,7 @@
 
 use config\DB;
 use models\GrupaClass;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 //Headers
 header("Access-Control-Allow-Origin:*");
@@ -15,9 +14,11 @@ require __DIR__."/../../vendor/autoload.php";
 
 try
 {
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "PUT")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTTP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
     }
     else
     {
@@ -33,11 +34,11 @@ try
 
         if($obj->update())
         {
-            echo json_encode(HTTPStatus(200, "Grupa Updated"));
+            echo json_encode($err::status(200, "Grupa Updated"));
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(404, "Grupa Not Updated")));
+            throw new Exception(json_encode($err::status(404, "Grupa Not Updated")));
         }
     }
 }

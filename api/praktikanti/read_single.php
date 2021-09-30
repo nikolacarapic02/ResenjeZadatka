@@ -2,8 +2,7 @@
 
 use models\PraktikantClass;
 use config\DB;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 //Headers
 header("Access-Control-Allow-Origin: *");
@@ -14,9 +13,11 @@ require __DIR__."/../../vendor/autoload.php";
 
 try{
 
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "GET")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTTP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
     }
     else
     {
@@ -25,7 +26,7 @@ try{
 
         $obj = new PraktikantClass($db);
 
-        $obj->id = isset($_GET["id"]) ? $_GET["id"] : throw new Exception(json_encode(HTTPStatus(404, "Id is not set!!")));
+        $obj->id = isset($_GET["id"]) ? $_GET["id"] : throw new Exception(json_encode($err::status(404, "Id is not set!!")));
 
         $obj->readSingle();
 

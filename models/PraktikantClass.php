@@ -5,7 +5,7 @@ namespace models;
 use models\PravilaInterface;
 use Exception;
 use PDOException;
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 class PraktikantClass implements PravilaInterface
 {
@@ -22,6 +22,9 @@ class PraktikantClass implements PravilaInterface
     private $id_grupe;
     private $komentar;
     private $naziv_grupe;
+
+    //Error-handler
+    private $err;
 
     //Constructor with DB
     public function __construct($db)
@@ -44,6 +47,8 @@ class PraktikantClass implements PravilaInterface
     //Read "praktikanti"
     public function read()
     {
+        $this->err = new HTTPStatus();
+
         $query = "SELECT g.naziv as 'naziv_grupe', p.id, p.ime, p.prezime, p.email, p.telefon, p.id_grupe, p.komentar 
         FROM ".$this->table." p LEFT JOIN grupe g ON p.id_grupe = g.id 
         ORDER BY p.id ASC";
@@ -63,6 +68,8 @@ class PraktikantClass implements PravilaInterface
     //Read-Single "praktikanti"
     public function readSingle()
     {
+        $this->err = new HTTPStatus();
+
         $query = "SELECT g.naziv as 'naziv_grupe', p.id, p.ime, p.prezime, p.email, p.telefon, p.id_grupe, p.komentar
         FROM ".$this->table." p LEFT JOIN grupe g ON p.id_grupe = g.id
         WHERE p.id = :id
@@ -90,7 +97,7 @@ class PraktikantClass implements PravilaInterface
             }
             else
             {
-                throw new Exception(json_encode(HTTPStatus(404, "Id doesn't exist!!")));
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
             }
         }
         else
@@ -102,6 +109,8 @@ class PraktikantClass implements PravilaInterface
     //Create "praktikanti"
     public function create()
     {
+        $this->err = new HTTPStatus();
+
         $query = "INSERT INTO ".$this->table." SET ime = :ime, 
         prezime = :prezime, email = :email, telefon = :telefon, id_grupe = :id_grupe, komentar = ''";
 
@@ -125,7 +134,7 @@ class PraktikantClass implements PravilaInterface
 
         if(empty($this->ime) || empty($this->prezime) || empty($this->email) || empty($this->telefon) || empty($this->id_grupe))
         {
-            throw new Exception(json_encode(HTTPStatus(409, "All columns must have a value!!"))); 
+            throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!"))); 
         }
         else if($stmt1->rowCount() > 0)
         { 
@@ -140,17 +149,20 @@ class PraktikantClass implements PravilaInterface
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(409, "id_grupe doesn't exist!!")));
+            throw new Exception(json_encode($this->err::status(409, "id_grupe doesn't exist!!")));
         }
     }
 
     //Update "praktikanti"
     public function update()
     {
+        $this->err = new HTTPStatus();
+
         $query = "UPDATE ".$this->table."
-        SET ime = :ime, prezime = :prezime,
-        email = :email, telefon = :telefon, id_grupe = :id_grupe
-        WHERE id = :id";
+            SET ime = :ime, prezime = :prezime, 
+            email = :email, telefon = :telefon, 
+            id_grupe = :id_grupe
+            WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
 
@@ -179,7 +191,7 @@ class PraktikantClass implements PravilaInterface
             }
             else
             {
-                throw new Exception(json_encode(HTTPStatus(404, "Id doesn't exist!!")));
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
             }
         }
         else
@@ -191,6 +203,8 @@ class PraktikantClass implements PravilaInterface
     //Delete "praktikanti"
     public function delete()
     {
+        $this->err = new HTTPStatus();
+
         $query = "DELETE FROM ".$this->table." WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -215,7 +229,7 @@ class PraktikantClass implements PravilaInterface
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(404, "Id doesn't exist!!")));
+            throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
         }
     }
 }

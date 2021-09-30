@@ -2,8 +2,7 @@
 
 use config\DB;
 use models\PraktikantClass;
-
-use function includes\HTTPStatus;
+use includes\HTTPStatus;
 
 //Headers
 header("Access-Control-Allow-Origin: *");
@@ -14,9 +13,12 @@ header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 require __DIR__."/../../vendor/autoload.php";
 
 try{
+
+    $err = new HTTPStatus();
+
     if($_SERVER["REQUEST_METHOD"] != "PUT")
     {
-        throw new Exception(json_encode(HTTPStatus(400, "Wrong HTTP Request Method")));
+        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
     }
     else
     {
@@ -36,11 +38,11 @@ try{
 
         if($obj->update())
         {
-            echo json_encode(HTTPStatus(200, "Praktikant Updated"));
+            echo json_encode($err::status(200, "Praktikant Updated"));
         }
         else
         {
-            throw new Exception(json_encode(HTTPStatus(404,"Praktikant Not Updated")));
+            throw new Exception(json_encode($err::status(404,"Praktikant Not Updated")));
         }
     }
 }
