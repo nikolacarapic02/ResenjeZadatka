@@ -14,19 +14,31 @@ class PraktikantClass implements PravilaInterface
     private $table = "praktikanti";
 
     //Properties
-    public $id;
-    public $ime;
-    public $prezime;
-    public $email;
-    public $telefon;
-    public $id_grupe;
-    public $komentar;
-    public $naziv_grupe;
+    private $id;
+    private $ime;
+    private $prezime;
+    private $email;
+    private $telefon;
+    private $id_grupe;
+    private $komentar;
+    private $naziv_grupe;
 
     //Constructor with DB
     public function __construct($db)
     {
         $this->conn = $db;
+    }
+
+    //Setter
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    //Getter
+    public function __get($name)
+    {
+        return $this->$name;
     }
 
     //Read "praktikanti"

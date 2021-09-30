@@ -16,17 +16,28 @@ class MentorClass extends AbstractPravila implements PravilaInterface
     private $table = "mentori";
 
     //Properties
-    public $id;
-    public $id_p;
-    public $id_m;
-    public $ime;
-    public $prezime;
-    public $email;
-    public $telefon;
-    public $id_grupe;
-    public $ime_grupe;
-    public $komentar;
+    private $id;
+    private $id_p;
+    private $id_m;
+    private $ime;
+    private $prezime;
+    private $email;
+    private $telefon;
+    private $id_grupe;
+    private $naziv_grupe;
+    private $komentar;
 
+    //Setter
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    //Getter
+    public function __get($name)
+    {
+        return $this->$name;
+    }
 
     //Construct with DB
     public function __construct($db)

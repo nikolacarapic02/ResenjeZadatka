@@ -16,19 +16,31 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $table = "grupe";
 
     //Properties
-    public $id;
-    public $naziv;
-    public $ime;
-    public $prezime;
-    public $mentori;
-    public $praktikanti;
-    public $pozicija;
-    public $redni_broj;
+    private $id;
+    private $naziv;
+    private $ime;
+    private $prezime;
+    private $mentori;
+    private $praktikanti;
+    private $pozicija;
+    private $redni_broj;
 
     //Construct with DB
     public function __construct($db)
     {
         $this->conn = $db;
+    }
+
+    //Setter
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    //Getter
+    public function __get($name)
+    {
+        return $this->$name;
     }
 
     //Read "grupe"
