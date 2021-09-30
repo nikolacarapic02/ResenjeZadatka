@@ -138,16 +138,24 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "UPDATE ".$this->table." SET naziv = :naziv 
-        WHERE id = :id";
+        $query = "UPDATE ".$this->table." SET ";
+
+        if(isset($this->naziv))
+        {
+            $this->naziv = strip_tags($this->naziv);
+            $query = $query . "naziv = '".$this->naziv."',";
+        }
+
+        if(isset($this->id))
+        {
+        $query = rtrim($query,",") . " WHERE id = ".$this->id;
+        }
+        else
+        {
+            throw new Exception(json_encode($this->err::status(404, "id is not set!!")));
+        }
 
         $stmt = $this->conn->prepare($query);
-
-        $this->id = strip_tags($this->id);
-        $this->naziv = strip_tags($this->naziv);
-
-        $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":naziv", $this->naziv);
 
         if($stmt->execute())
         {

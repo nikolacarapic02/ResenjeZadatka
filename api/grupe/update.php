@@ -29,8 +29,15 @@ try
 
         $data = json_decode(file_get_contents("php://input"));
 
-        $obj->id = $data->id;
-        $obj->naziv = $data->naziv;
+        if(isset($data->id))
+        {
+            $obj->id = $data->id;   
+        }
+
+        if(isset($data->naziv))
+        {
+            $obj->naziv = $data->naziv;
+        }
 
         if($obj->update())
         {

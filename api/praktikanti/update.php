@@ -29,12 +29,35 @@ try{
 
         $data = json_decode(file_get_contents("php://input"));
 
-        $obj->id = $data->id;
-        $obj->ime = $data->ime;
-        $obj->prezime = $data->prezime;
-        $obj->email = $data->email;
-        $obj->telefon = $data->telefon;
-        $obj->id_grupe = $data->id_grupe;
+        if(isset($data->id))
+        {
+            $obj->id = $data->id;   
+        }
+
+        if(isset($data->ime))
+        {
+            $obj->ime = $data->ime;
+        }
+
+        if(isset($data->prezime))
+        {
+            $obj->prezime = $data->prezime;
+        }
+
+        if(isset($data->email))
+        {
+            $obj->email = $data->email;
+        }
+
+        if(isset($data->telefon))
+        {
+            $obj->telefon = $data->telefon;
+        }
+
+        if(isset($data->id_grupe))
+        {
+            $obj->id_grupe = $data->id_grupe;
+        }
 
         if($obj->update())
         {

@@ -158,27 +158,44 @@ class PraktikantClass implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "UPDATE ".$this->table."
-            SET ime = :ime, prezime = :prezime, 
-            email = :email, telefon = :telefon, 
-            id_grupe = :id_grupe
-            WHERE id = :id";
+        $query = "UPDATE ".$this->table." SET ";
+
+        if(isset($this->ime))
+        {
+            $this->ime = strip_tags($this->ime);
+            $query = $query . "ime = '".$this->ime."',";
+        }
+        if(isset($this->prezime))
+        {
+            $this->prezime = strip_tags($this->prezime);
+            $query = $query . "prezime = '".$this->prezime."',";
+        }
+        if(isset($this->email))
+        {
+            $this->email = strip_tags($this->email);
+            $query = $query . "email = '".$this->email."',";
+        }
+        if(isset($this->telefon))
+        {
+            $this->telefon = strip_tags($this->telefon);
+            $query = $query . "telefon = '".$this->telefon."',";
+        }
+        if(isset($this->id_grupe))
+        {
+            $this->id_grupe = strip_tags($this->id_grupe);
+            $query = $query . "id_grupe = '".$this->id_grupe."',";
+        }
+
+        if(isset($this->id))
+        {
+        $query = rtrim($query,",") . " WHERE id = ".$this->id;
+        }
+        else
+        {
+            throw new Exception(json_encode($this->err::status(404, "id is not set!!")));
+        }
 
         $stmt = $this->conn->prepare($query);
-
-        $this->id = strip_tags($this->id);
-        $this->ime = strip_tags($this->ime);
-        $this->prezime = strip_tags($this->prezime);
-        $this->email = strip_tags($this->email);
-        $this->telefon = strip_tags($this->telefon);
-        $this->id_grupe = strip_tags($this->id_grupe);
-
-        $stmt->bindParam(":id", $this->id);
-        $stmt->bindParam(":ime", $this->ime);
-        $stmt->bindParam(":prezime", $this->prezime);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":telefon", $this->telefon);
-        $stmt->bindParam(":id_grupe", $this->id_grupe);
 
         if($stmt->execute())
         {
