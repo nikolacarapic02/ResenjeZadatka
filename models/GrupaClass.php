@@ -106,7 +106,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->naziv = htmlspecialchars(strip_tags($this->naziv));
+        $this->naziv = strip_tags($this->naziv);
 
         $stmt->bindParam(":naziv", $this->naziv);
 
@@ -135,8 +135,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->naziv = htmlspecialchars(strip_tags($this->naziv));
+        $this->id = strip_tags($this->id);
+        $this->naziv = strip_tags($this->naziv);
 
         $stmt->bindParam(":id", $this->id);
         $stmt->bindParam(":naziv", $this->naziv);
@@ -168,7 +168,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->id = strip_tags($this->id);
 
         $stmt->bindParam(":id", $this->id);
 

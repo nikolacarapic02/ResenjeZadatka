@@ -107,11 +107,11 @@ class PraktikantClass implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->ime = htmlspecialchars(strip_tags($this->ime));
-        $this->prezime = htmlspecialchars(strip_tags($this->prezime));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->telefon = htmlspecialchars(strip_tags($this->telefon));
-        $this->id_grupe = htmlspecialchars(strip_tags($this->id_grupe));
+        $this->ime = strip_tags($this->ime);
+        $this->prezime = strip_tags($this->prezime);
+        $this->email = strip_tags($this->email);
+        $this->telefon = strip_tags($this->telefon);
+        $this->id_grupe = strip_tags($this->id_grupe);
 
         $stmt->bindParam(":ime", $this->ime);
         $stmt->bindParam(":prezime", $this->prezime);
@@ -154,12 +154,12 @@ class PraktikantClass implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->ime = htmlspecialchars(strip_tags($this->ime));
-        $this->prezime = htmlspecialchars(strip_tags($this->prezime));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->telefon = htmlspecialchars(strip_tags($this->telefon));
-        $this->id_grupe = htmlspecialchars(strip_tags($this->id_grupe));
+        $this->id = strip_tags($this->id);
+        $this->ime = strip_tags($this->ime);
+        $this->prezime = strip_tags($this->prezime);
+        $this->email = strip_tags($this->email);
+        $this->telefon = strip_tags($this->telefon);
+        $this->id_grupe = strip_tags($this->id_grupe);
 
         $stmt->bindParam(":id", $this->id);
         $stmt->bindParam(":ime", $this->ime);
@@ -195,7 +195,7 @@ class PraktikantClass implements PravilaInterface
 
         $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->id = strip_tags($this->id);
 
         $stmt->bindParam(":id", $this->id);
 
