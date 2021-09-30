@@ -1,13 +1,14 @@
 <?php
 
 namespace config;
+include("config.php");
 
 class DB
 {
-    private $host = "localhost";
-    private $username = "Nikola";
-    private $password = "Nikola9122002";
-    private $dbName = "QuantoxPraksa";
+    private $host = HOST;
+    private $username = USERNAME;
+    private $password = PASSWORD;
+    private $dbName = DBNAME;
     private $conn;
 
     public function connect()
