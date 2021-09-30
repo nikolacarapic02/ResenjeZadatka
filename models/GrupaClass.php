@@ -205,12 +205,27 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Listing "grupe"
     public function listing()
     {
+        $rec_per_page = 5;
+
+        if(isset($_GET["page"]))
+        {
+            $page = $_GET["page"];
+        }
+        else
+        {
+            $page = 1;
+        }
+
+        $start_from = ($page-1)*$rec_per_page;
+
+
         $query = "SELECT @a:=@a+1 as 'redni_broj','Mentor' as 'pozicija', ime, prezime FROM mentori, ".$this->table." g, (SELECT @a:= 0) AS a
         WHERE g.id = id_grupe 
         UNION ALL
         SELECT @a:=@a+1 as 'redni_broj','Praktikant' as 'Pozicija', ime, prezime FROM praktikanti, ".$this->table." g, (SELECT @a:= 0) AS a
         WHERE g.id = id_grupe
-        ORDER BY 'pozicija'";
+        ORDER BY 'pozicija'
+        LIMIT ".$start_from.", ".$rec_per_page;
 
         $stmt = $this->conn->prepare($query);
                 
