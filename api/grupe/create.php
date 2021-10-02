@@ -16,29 +16,22 @@ try
 {
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "POST")
+    $database = new DB();
+    $db = $database->connect();
+
+    $obj = new GrupaClass($db);
+
+    $data = json_decode(file_get_contents("php://input"));
+
+    $obj->naziv = $data->naziv;
+
+    if($obj->create())
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
+        echo json_encode($err::status(201, "Grupa Created"));
     }
     else
     {
-        $database = new DB();
-        $db = $database->connect();
-
-        $obj = new GrupaClass($db);
-
-        $data = json_decode(file_get_contents("php://input"));
-
-        $obj->naziv = $data->naziv;
-
-        if($obj->create())
-        {
-            echo json_encode($err::status(201, "Grupa Created"));
-        }
-        else
-        {
-            throw new Exception(json_encode($err::status(404, "Grupa Not Created")));
-        }
+        throw new Exception(json_encode($err::status(404, "Grupa Not Created")));
     }
 }
 catch(PDOException $e)

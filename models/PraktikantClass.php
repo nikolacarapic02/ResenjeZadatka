@@ -160,35 +160,53 @@ class PraktikantClass implements PravilaInterface
 
         $query = "UPDATE ".$this->table." SET ";
 
-        if(isset($this->ime))
+        if(isset($this->id) && $this->id != "")
         {
-            $this->ime = strip_tags($this->ime);
-            $query = $query . "ime = '".$this->ime."',";
-        }
-        if(isset($this->prezime))
-        {
-            $this->prezime = strip_tags($this->prezime);
-            $query = $query . "prezime = '".$this->prezime."',";
-        }
-        if(isset($this->email))
-        {
-            $this->email = strip_tags($this->email);
-            $query = $query . "email = '".$this->email."',";
-        }
-        if(isset($this->telefon))
-        {
-            $this->telefon = strip_tags($this->telefon);
-            $query = $query . "telefon = '".$this->telefon."',";
-        }
-        if(isset($this->id_grupe))
-        {
-            $this->id_grupe = strip_tags($this->id_grupe);
-            $query = $query . "id_grupe = '".$this->id_grupe."',";
-        }
+            $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
+            $stmt1 = $this->conn->prepare($query1);
+            $stmt1->execute();
 
-        if(isset($this->id))
-        {
-        $query = rtrim($query,",") . " WHERE id = ".$this->id;
+            if($stmt1->rowCount() > 0)
+            {
+                if(isset($this->ime) || isset($this->prezime) || isset($this->email) || isset($this->telefon) || isset($this->id_grupe))
+                {
+                    if(isset($this->ime))
+                    {
+                        $this->ime = strip_tags($this->ime);
+                        $query = $query . "ime = '".$this->ime."',";
+                    }
+                    if(isset($this->prezime))
+                    {
+                        $this->prezime = strip_tags($this->prezime);
+                        $query = $query . "prezime = '".$this->prezime."',";
+                    }
+                    if(isset($this->email))
+                    {
+                        $this->email = strip_tags($this->email);
+                        $query = $query . "email = '".$this->email."',";
+                    }
+                    if(isset($this->telefon))
+                    {
+                        $this->telefon = strip_tags($this->telefon);
+                        $query = $query . "telefon = '".$this->telefon."',";
+                    }
+                    if(isset($this->id_grupe))
+                    {
+                        $this->id_grupe = strip_tags($this->id_grupe);
+                        $query = $query . "id_grupe = '".$this->id_grupe."',";
+                    }
+
+                    $query = rtrim($query,",") . " WHERE id = ".$this->id;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(404, "You must fill at least one column!!")));
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
+            }
         }
         else
         {
@@ -199,17 +217,7 @@ class PraktikantClass implements PravilaInterface
 
         if($stmt->execute())
         {
-            $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
-            $stmt1 = $this->conn->prepare($query1);
-            $stmt1->execute();
-            if($stmt1->rowCount() > 0)
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
-            }
+            return true;
         }
         else
         {

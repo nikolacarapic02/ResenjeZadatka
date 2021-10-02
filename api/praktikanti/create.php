@@ -16,33 +16,26 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "POST")
+    $database = new DB();
+    $db = $database->connect();
+
+    $obj = new PraktikantClass($db);
+
+    $data = json_decode(file_get_contents("php://input"));
+
+    $obj->ime = $data->ime;
+    $obj->prezime = $data->prezime;
+    $obj->email = $data->email;
+    $obj->telefon = $data->telefon;
+    $obj->id_grupe = $data->id_grupe;
+
+    if($obj->create())
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
+        echo json_encode($err::status(201,"Praktikant Created"));
     }
     else
     {
-        $database = new DB();
-        $db = $database->connect();
-
-        $obj = new PraktikantClass($db);
-
-        $data = json_decode(file_get_contents("php://input"));
-
-        $obj->ime = $data->ime;
-        $obj->prezime = $data->prezime;
-        $obj->email = $data->email;
-        $obj->telefon = $data->telefon;
-        $obj->id_grupe = $data->id_grupe;
-
-        if($obj->create())
-        {
-            echo json_encode($err::status(201,"Praktikant Created"));
-        }
-        else
-        {
-            throw new Exception(json_encode($err::status(404, "Praktikant Not Created")));
-        }
+        throw new Exception(json_encode($err::status(404, "Praktikant Not Created")));
     }
 }
 catch(PDOException $e)

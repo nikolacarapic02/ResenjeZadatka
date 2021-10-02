@@ -15,31 +15,24 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "PUT")
+    $database = new DB();
+    $db = $database->connect();
+
+    $obj = new MentorClass($db);
+
+    $data = json_decode(file_get_contents("php://input"));
+
+    $obj->komentar = $data->komentar;
+    $obj->id_p = $data->id_p;
+    $obj->id_m = $data->id_m;
+
+    if($obj->createKomentar())
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
+        echo json_encode($err::status(200,"Komentar Created"));
     }
     else
     {
-        $database = new DB();
-        $db = $database->connect();
-
-        $obj = new MentorClass($db);
-
-        $data = json_decode(file_get_contents("php://input"));
-
-        $obj->komentar = $data->komentar;
-        $obj->id_p = $data->id_p;
-        $obj->id_m = $data->id_m;
-
-        if($obj->createKomentar())
-        {
-            echo json_encode($err::status(200,"Komentar Created"));
-        }
-        else
-        {
-            throw new Exception(json_encode(array("message"=>"Komentar Not Created")));
-        }
+        throw new Exception(json_encode(array("message"=>"Komentar Not Created")));
     }
 }
 catch(PDOException $e)

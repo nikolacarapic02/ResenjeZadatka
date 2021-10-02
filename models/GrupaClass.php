@@ -140,15 +140,32 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $query = "UPDATE ".$this->table." SET ";
 
-        if(isset($this->naziv))
+        if(isset($this->id) && $this->id != "")
         {
-            $this->naziv = strip_tags($this->naziv);
-            $query = $query . "naziv = '".$this->naziv."',";
-        }
+            $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
+            $stmt1 = $this->conn->prepare($query1);
+            $stmt1->execute();
 
-        if(isset($this->id))
-        {
-        $query = rtrim($query,",") . " WHERE id = ".$this->id;
+            if($stmt1->rowCount() > 0)
+            {
+                if(isset($this->naziv))
+                {
+
+                    $this->naziv = strip_tags($this->naziv);
+                    $query = $query . "naziv = '".$this->naziv."',";
+                    
+
+                    $query = rtrim($query,",") . " WHERE id = ".$this->id;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(404, "You must fill at least one column!!")));
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
+            }
         }
         else
         {
@@ -159,24 +176,13 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         if($stmt->execute())
         {
-            $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
-            $stmt1 = $this->conn->prepare($query1);
-            $stmt1->execute();
-            if($stmt1->rowCount() > 0)
-            {
-                return true;
-            }
-            else
-            {
-                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
-            }
+            return true;
         }
         else
         {
             throw new PDOException();
         }
     }
-
     //Delete "grupe"
     public function delete()
     {

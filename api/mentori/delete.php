@@ -16,29 +16,22 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "DELETE")
+    $database = new DB();
+    $db = $database->connect();
+
+    $obj = new MentorClass($db);
+
+    $data = json_decode(file_get_contents("php://input"));
+
+    $obj->id = $data->id;
+
+    if($obj->delete())
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
+        echo json_encode($err::status(200,"Mentor Deleted"));
     }
     else
     {
-        $database = new DB();
-        $db = $database->connect();
-
-        $obj = new MentorClass($db);
-
-        $data = json_decode(file_get_contents("php://input"));
-
-        $obj->id = $data->id;
-
-        if($obj->delete())
-        {
-            echo json_encode($err::status(200,"Mentor Deleted"));
-        }
-        else
-        {
-            throw new Exception(json_encode($err::status(404,"Mentor Not Deleted")));
-        }
+        throw new Exception(json_encode($err::status(404,"Mentor Not Deleted")));
     }
 }
 catch(PDOException $e)

@@ -15,46 +15,39 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "GET")
+    $database = new DB();
+    $db = $database->connect();
+
+    $obj = new GrupaClass($db);
+
+    $result = $obj->read();
+
+    $num = $result->rowCount();
+
+    if($num>0)
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
+        $obj_arr = array();
+        $obj_arr["data"] = array();
+
+        while($row = $result->fetch(PDO::FETCH_ASSOC))
+        {
+            extract($row);
+
+            $obj_items = array(
+                "id"=> $id,
+                "naziv" => $naziv,
+                "mentori" => $mentori,
+                "praktikanti" => $praktikanti
+            );
+
+            array_push($obj_arr["data"], $obj_items);
+        }
+
+        echo json_encode($obj_arr["data"]);
     }
     else
     {
-        $database = new DB();
-        $db = $database->connect();
-
-        $obj = new GrupaClass($db);
-
-        $result = $obj->read();
-
-        $num = $result->rowCount();
-
-        if($num>0)
-        {
-            $obj_arr = array();
-            $obj_arr["data"] = array();
-
-            while($row = $result->fetch(PDO::FETCH_ASSOC))
-            {
-                extract($row);
-
-                $obj_items = array(
-                    "id"=> $id,
-                    "naziv" => $naziv,
-                    "mentori" => $mentori,
-                    "praktikanti" => $praktikanti
-                );
-
-                array_push($obj_arr["data"], $obj_items);
-            }
-
-            echo json_encode($obj_arr["data"]);
-        }
-        else
-        {
-            throw new Exception(json_encode($err::status(404,"Grupa Not Found")));
-        }
+        throw new Exception(json_encode($err::status(404,"Grupa Not Found")));
     }
 }
 catch(PDOException $e)

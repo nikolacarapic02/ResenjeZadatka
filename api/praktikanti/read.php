@@ -14,48 +14,42 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "GET")
+
+    $database = new config\DB();
+    $db = $database->connect();
+
+    $obj = new PraktikantClass($db);
+
+    $result = $obj->read();
+
+    $num = $result->rowCount();
+
+    if($num>0)
     {
-        throw new Exception(json_encode($err::status(400, "Wrong HTPP Request Method")));
+        $obj_arr = array();
+        $obj_arr["data"] = array();
+
+        while($row = $result->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+
+            $obj_items = array(
+                "id" => $id,
+                "ime" => $ime,
+                "prezime" => $prezime,
+                "email" => $email,
+                "telefon" => $telefon,
+                "id_grupe" => $id_grupe,
+                "naziv_grupe" => $naziv_grupe,
+                "komentar" => $komentar 
+            );
+
+            array_push($obj_arr["data"], $obj_items);
+        }
+        echo json_encode($obj_arr["data"]);
     }
     else
     {
-        $database = new config\DB();
-        $db = $database->connect();
-
-        $obj = new PraktikantClass($db);
-
-        $result = $obj->read();
-
-        $num = $result->rowCount();
-
-        if($num>0)
-        {
-            $obj_arr = array();
-            $obj_arr["data"] = array();
-
-            while($row = $result->fetch(PDO::FETCH_ASSOC)){
-                extract($row);
-
-                $obj_items = array(
-                    "id" => $id,
-                    "ime" => $ime,
-                    "prezime" => $prezime,
-                    "email" => $email,
-                    "telefon" => $telefon,
-                    "id_grupe" => $id_grupe,
-                    "naziv_grupe" => $naziv_grupe,
-                    "komentar" => $komentar 
-                );
-
-                array_push($obj_arr["data"], $obj_items);
-            }
-            echo json_encode($obj_arr["data"]);
-        }
-        else
-        {
-            throw new Exception(json_encode($err::status(404,"Praktikant Not Found")));
-        }
+        throw new Exception(json_encode($err::status(404,"Praktikant Not Found")));
     }
 }
 catch(PDOException $e)

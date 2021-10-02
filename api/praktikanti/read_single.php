@@ -15,34 +15,27 @@ try{
 
     $err = new HTTPStatus();
 
-    if($_SERVER["REQUEST_METHOD"] != "GET")
-    {
-        throw new Exception(json_encode($err::status(400, "Wrong HTTP Request Method")));
-    }
-    else
-    {
-        $database = new DB();
-        $db = $database->connect();
+    $database = new DB();
+    $db = $database->connect();
 
-        $obj = new PraktikantClass($db);
+    $obj = new PraktikantClass($db);
 
-        $obj->id = isset($_GET["id"]) ? $_GET["id"] : throw new Exception(json_encode($err::status(404, "Id is not set!!")));
+    $obj->id = isset($_GET["id"]) ? $_GET["id"] : throw new Exception(json_encode($err::status(404, "Id is not set!!")));
 
-        $obj->readSingle();
+    $obj->readSingle();
 
-        $obj_arr = array(
-            "id"=>$obj->id,
-            "ime"=>$obj->ime,
-            "prezime"=>$obj->prezime,
-            "email"=>$obj->email,
-            "telefon"=>$obj->telefon,
-            "id_grupe"=>$obj->id_grupe,
-            "naziv_grupe"=>$obj->naziv_grupe,
-            "komentar"=>$obj->komentar
-        );
+    $obj_arr = array(
+        "id"=>$obj->id,
+        "ime"=>$obj->ime,
+        "prezime"=>$obj->prezime,
+        "email"=>$obj->email,
+        "telefon"=>$obj->telefon,
+        "id_grupe"=>$obj->id_grupe,
+        "naziv_grupe"=>$obj->naziv_grupe,
+        "komentar"=>$obj->komentar
+    );
 
-        echo json_encode($obj_arr);
-    }
+    echo json_encode($obj_arr);
 }
 catch(PDOException $e)
 {
