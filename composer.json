@@ -7,6 +7,7 @@
         }
     },
     "require": {
-        "fakerphp/faker": "^1.16"
+        "fakerphp/faker": "^1.16",
+        "bramus/router": "^1.6"
     }
 }
