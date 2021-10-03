@@ -5,31 +5,37 @@
 ## **api**
 
 - praktikanti
+```json
 {
-    read,
-    read_single,
-    create,
-    update,
-    delete
-},
-- mentor
-{
-    read,
-    read_single,
-    create,
-    update,
-    delete,
-    komentar
-},
-- grupe
-{
-    read,
-    read_single,
-    create,
-    update,
-    delete,
-    listing
+    "read"
+    "read_single"
+    "create"
+    "update"
+    "delete"
 }
+```
+- mentor
+```json
+{
+    "read"
+    "read_single"
+    "create"
+    "update"
+    "delete"
+    "komentar"
+}
+```
+- grupe
+```json
+{
+    "read"
+    "read_single"
+    "create"
+    "update"
+    "delete"
+    "listing"
+}
+```
 
 ## API Reference
 
