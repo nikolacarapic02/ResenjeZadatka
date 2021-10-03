@@ -53,6 +53,7 @@ class Router
     private $namespace = '';
 
 
+    
     /**
      * Store a before middleware route and a handling function to be executed when accessed using one of the specified methods.
      *
@@ -302,7 +303,7 @@ class Router
 
         // If no route was handled, trigger the 404 (if any)
         if ($numHandled === 0) {
-            throw new Exception(json_encode($err::status(404, "Page Not Found")));
+            throw new Exception(json_encode($err::status(404, "Page Not Found (invalid url or wrong HTTP request method)")));
         } // If a route was handled, perform the finish callback (if any)
         else {
             if ($callback && is_callable($callback)) {
