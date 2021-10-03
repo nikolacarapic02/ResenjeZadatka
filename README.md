@@ -2,34 +2,33 @@
 
 ## API Endpoints
 
-**api**
+## **api**
+
+- praktikanti
 {
-    **praktikanti**
-    {
-        read,
-        read_single,
-        create,
-        update,
-        delete
-    },
-    **mentori**
-    {
-        read,
-        read_single,
-        create,
-        update,
-        delete,
-        komentar
-    },
-    **grupe**
-    {
-        read,
-        read_single,
-        create,
-        update,
-        delete,
-        listing
-    }
+    read,
+    read_single,
+    create,
+    update,
+    delete
+},
+- mentor
+{
+    read,
+    read_single,
+    create,
+    update,
+    delete,
+    komentar
+},
+- grupe
+{
+    read,
+    read_single,
+    create,
+    update,
+    delete,
+    listing
 }
 
 ## API Reference
