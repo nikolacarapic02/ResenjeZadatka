@@ -1,8 +1,25 @@
 /README.md
 
+## How to run the app?
+
+### **Git clone**
+
+- In terminal access to your local server environment root directory.
+
+- Run
+```
+    git clone https://github.com/nikolacarapic02/ResenjeZadatka.git
+```
+
+### **Usage**
+
+- In a browser or other application launch environment, use one of the routes listed below.
+
+- Pay attention to whether the app is in the root directory or in one of subdirectories.
+
 ## API Endpoints
 
-## **api**
+### **api**
 
 - praktikanti
 ```json
@@ -44,8 +61,8 @@
 ### **Read**
 
 ```http
-GET /ResenjeZadatka/praktikanti/read
-GET /ResenjeZadatka/mentori/read
+GET /praktikanti/read
+GET /mentori/read
 ```
 
 - Response
@@ -65,7 +82,7 @@ GET /ResenjeZadatka/mentori/read
 ```
 
 ```http
-GET /ResenjeZadatka/grupe/read
+GET /grupe/read
 ```
 
 - Response
@@ -84,8 +101,8 @@ GET /ResenjeZadatka/grupe/read
 ### **ReadSingle**
 
 ```http
-GET /ResenjeZadatka/praktikanti/read_single?id=value
-GET /ResenjeZadatka/mentori/read_single?id=value
+GET /praktikanti/read_single?id=value
+GET /mentori/read_single?id=value
 ```
 
 - Response
@@ -105,7 +122,7 @@ GET /ResenjeZadatka/mentori/read_single?id=value
 ```
 
 ```http
-GET /ResenjeZadatka/grupe/read_single?id=value
+GET /grupe/read_single?id=value
 ```
 
 - Response
@@ -124,8 +141,8 @@ GET /ResenjeZadatka/grupe/read_single?id=value
 ### **Listing**
 
 ```http
-GET /ResenjeZadatka/grupe/listing                 //Default: Loads the page 1 
-GET /ResenjeZadatka/grupe/listing?page=value
+GET /grupe/listing                 //Default: Loads the page 1 
+GET /grupe/listing?page=value
 ```
 
 - Response
@@ -144,8 +161,8 @@ GET /ResenjeZadatka/grupe/listing?page=value
 ### **Create**
 
 ```http
-POST /ResenjeZadatka/praktikanti/create
-POST /ResenjeZadatka/mentori/create
+POST /praktikanti/create
+POST /mentori/create
 ```
 
 - Values
@@ -163,7 +180,7 @@ POST /ResenjeZadatka/mentori/create
 ```
 
 ```http
-POST /ResenjeZadatka/grupe/create
+POST /grupe/create
 ```
 
 - Values
@@ -179,8 +196,8 @@ POST /ResenjeZadatka/grupe/create
 ### **Update**
 
 ```http
-PUT /ResenjeZadatka/praktikanti/update
-PUT /ResenjeZadatka/mentori/update
+PUT /praktikanti/update
+PUT /mentori/update
 ```
 
 - Values
@@ -199,7 +216,7 @@ PUT /ResenjeZadatka/mentori/update
 ```
 
 ```http
-PUT /ResenjeZadatka/grupe/update
+PUT /grupe/update
 ```
 
 - Values
@@ -216,7 +233,7 @@ PUT /ResenjeZadatka/grupe/update
 ### **Komentar**
 
 ```http
-PUT /ResenjeZadatka/mentori/komentar
+PUT /mentori/komentar
 ```
 
 - Values
@@ -234,9 +251,9 @@ PUT /ResenjeZadatka/mentori/komentar
 ### **Delete**
 
 ```http
-DELETE /ResenjeZadatka/praktikanti/delete
-DELETE /ResenjeZadatka/mentori/delete
-DELETE /ResenjeZadatka/grupe/delete
+DELETE /praktikanti/delete
+DELETE /mentori/delete
+DELETE /grupe/delete
 ```
 
 - Values
