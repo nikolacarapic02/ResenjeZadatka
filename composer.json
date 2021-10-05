@@ -3,7 +3,8 @@
         "psr-4": {
             "config\\":"config/",
             "models\\":"models/",
-            "includes\\":"includes/"
+            "includes\\":"includes/",
+            "api\\":"api/"
         }
     },
     "require": {

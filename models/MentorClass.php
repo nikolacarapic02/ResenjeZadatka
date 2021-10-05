@@ -29,6 +29,12 @@ class MentorClass extends AbstractPravila implements PravilaInterface
     //Error-handler
     private $err;
 
+    //Construct with DB
+    protected function __construct($db)
+    {
+        $this->conn = $db;
+    }
+
     //Setter
     public function __set($name, $value)
     {
@@ -39,12 +45,6 @@ class MentorClass extends AbstractPravila implements PravilaInterface
     public function __get($name)
     {
         return $this->$name;
-    }
-
-    //Construct with DB
-    public function __construct($db)
-    {
-        $this->conn = $db;
     }
 
     //Read "praktikanti"

@@ -27,7 +27,7 @@ class PraktikantClass implements PravilaInterface
     private $err;
 
     //Constructor with DB
-    public function __construct($db)
+    protected function __construct($db)
     {
         $this->conn = $db;
     }

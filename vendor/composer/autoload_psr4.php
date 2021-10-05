@@ -9,6 +9,7 @@ return array(
     'models\\' => array($baseDir . '/models'),
     'includes\\' => array($baseDir . '/includes'),
     'config\\' => array($baseDir . '/config'),
+    'api\\' => array($baseDir . '/api'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
 );

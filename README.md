@@ -101,8 +101,11 @@ GET /grupe/read
 ### **ReadSingle**
 
 ```http
-GET /praktikanti/read_single?id=value
-GET /mentori/read_single?id=value
+GET /praktikanti/read_single/id
+GET /praktikanti/read_single            //Default: Loads page for id=1
+
+GET /mentori/read_single/id
+GET /mentori/read_single                //Default: Loads page for id=1
 ```
 
 - Response
@@ -122,7 +125,8 @@ GET /mentori/read_single?id=value
 ```
 
 ```http
-GET /grupe/read_single?id=value
+GET /grupe/read_single/id
+GET /grupe/read_single                  //Default: Loads page for id=1
 ```
 
 - Response
@@ -141,8 +145,8 @@ GET /grupe/read_single?id=value
 ### **Listing**
 
 ```http
+GET /grupe/listing/page
 GET /grupe/listing                 //Default: Loads the page 1 
-GET /grupe/listing?page=value
 ```
 
 - Response

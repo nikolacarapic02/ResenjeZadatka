@@ -28,7 +28,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $err;
 
     //Construct with DB
-    public function __construct($db)
+    protected function __construct($db)
     {
         $this->conn = $db;
     }
@@ -221,17 +221,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $rec_per_page = 5;
 
-        if(isset($_GET["page"]))
-        {
-            $page = $_GET["page"];
-        }
-        else
-        {
-            $page = 1;
-        }
-
-        $start_from = ($page-1)*$rec_per_page;
-
+        $start_from = ($this->page-1)*$rec_per_page;
 
         $query = "SELECT @a:=@a+1 as 'redni_broj','Mentor' as 'pozicija', ime, prezime FROM mentori, ".$this->table." g, (SELECT @a:= 0) AS a
         WHERE g.id = id_grupe 

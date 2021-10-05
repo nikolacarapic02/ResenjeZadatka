@@ -23,6 +23,10 @@ class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
         array (
             'config\\' => 7,
         ),
+        'a' => 
+        array (
+            'api\\' => 4,
+        ),
         'P' => 
         array (
             'Psr\\Container\\' => 14,
@@ -45,6 +49,10 @@ class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
         'config\\' => 
         array (
             0 => __DIR__ . '/../..' . '/config',
+        ),
+        'api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/api',
         ),
         'Psr\\Container\\' => 
         array (
