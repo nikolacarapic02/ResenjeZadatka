@@ -44,8 +44,8 @@
 ### **Read**
 
 ```http
-GET /Zadatak2/praktikanti/read
-GET /Zadatak2/mentori/read
+GET /ResenjeZadatka/praktikanti/read
+GET /ResenjeZadatka/mentori/read
 ```
 
 - Response
@@ -65,7 +65,7 @@ GET /Zadatak2/mentori/read
 ```
 
 ```http
-GET /Zadatak2/grupe/read
+GET /ResenjeZadatka/grupe/read
 ```
 
 - Response
@@ -84,8 +84,8 @@ GET /Zadatak2/grupe/read
 ### **ReadSingle**
 
 ```http
-GET /Zadatak2/praktikanti/read_single?id=value
-GET /Zadatak2/mentori/read_single?id=value
+GET /ResenjeZadatka/praktikanti/read_single?id=value
+GET /ResenjeZadatka/mentori/read_single?id=value
 ```
 
 - Response
@@ -105,7 +105,7 @@ GET /Zadatak2/mentori/read_single?id=value
 ```
 
 ```http
-GET /Zadatak2/grupe/read_single?id=value
+GET /ResenjeZadatka/grupe/read_single?id=value
 ```
 
 - Response
@@ -124,8 +124,8 @@ GET /Zadatak2/grupe/read_single?id=value
 ### **Listing**
 
 ```http
-GET /Zadatak2/grupe/listing                 //Default: Loads the page 1 
-GET /Zadatak2/grupe/listing?page=value
+GET /ResenjeZadatka/grupe/listing                 //Default: Loads the page 1 
+GET /ResenjeZadatka/grupe/listing?page=value
 ```
 
 - Response
@@ -144,8 +144,8 @@ GET /Zadatak2/grupe/listing?page=value
 ### **Create**
 
 ```http
-POST /Zadatak2/praktikanti/create
-POST /Zadatak2/mentori/create
+POST /ResenjeZadatka/praktikanti/create
+POST /ResenjeZadatka/mentori/create
 ```
 
 - Values
@@ -163,7 +163,7 @@ POST /Zadatak2/mentori/create
 ```
 
 ```http
-POST /Zadatak2/grupe/create
+POST /ResenjeZadatka/grupe/create
 ```
 
 - Values
@@ -179,8 +179,8 @@ POST /Zadatak2/grupe/create
 ### **Update**
 
 ```http
-PUT /Zadatak2/praktikanti/update
-PUT /Zadatak2/mentori/update
+PUT /ResenjeZadatka/praktikanti/update
+PUT /ResenjeZadatka/mentori/update
 ```
 
 - Values
@@ -199,7 +199,7 @@ PUT /Zadatak2/mentori/update
 ```
 
 ```http
-PUT /Zadatak2/grupe/update
+PUT /ResenjeZadatka/grupe/update
 ```
 
 - Values
@@ -216,7 +216,7 @@ PUT /Zadatak2/grupe/update
 ### **Komentar**
 
 ```http
-PUT /Zadatak2/mentori/komentar
+PUT /ResenjeZadatka/mentori/komentar
 ```
 
 - Values
@@ -234,9 +234,9 @@ PUT /Zadatak2/mentori/komentar
 ### **Delete**
 
 ```http
-DELETE /Zadatak2/praktikanti/delete
-DELETE /Zadatak2/mentori/delete
-DELETE /Zadatak2/grupe/delete
+DELETE /ResenjeZadatka/praktikanti/delete
+DELETE /ResenjeZadatka/mentori/delete
+DELETE /ResenjeZadatka/grupe/delete
 ```
 
 - Values
