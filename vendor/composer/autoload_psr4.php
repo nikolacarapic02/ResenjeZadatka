@@ -10,6 +10,7 @@ return array(
     'includes\\' => array($baseDir . '/includes'),
     'config\\' => array($baseDir . '/config'),
     'api\\' => array($baseDir . '/api'),
+    'additions\\' => array($baseDir . '/additions'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
 );

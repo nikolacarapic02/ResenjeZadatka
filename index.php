@@ -3,6 +3,7 @@
 use api\Mentori;
 use api\Praktikanti;
 use api\Grupe;
+use additions\Faker;
 
 //HEADERS
 
@@ -72,6 +73,11 @@ $router->get('/grupe/listing/'.$page='(\d+)', function($page){
 $router->get('/grupe/listing', function($page = 1){
     $obj = new Grupe();
     return $obj->grupaListing($page);
+});
+
+$router->get('/faker', function(){
+    $obj = new Faker();
+    return $obj->runFaker();
 });
 
 

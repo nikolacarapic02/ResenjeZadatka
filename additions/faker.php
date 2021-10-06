@@ -1,41 +1,56 @@
 <?php
 
+namespace additions;
+
 use config\DB;
 
 require "../vendor/autoload.php";
 
-$database = new DB();
+class Faker{
 
-$db = $database->connect();
+    //Properties
+    private $database;
 
-$db->query("DELETE FROM praktikanti");
-$db->query("DELETE FROM mentori");
-$db->query("DELETE FROM grupe");
+    public function __construct()
+    {
+        $this->database = new DB();
+    }
 
-$db->query("ALTER TABLE grupe AUTO_INCREMENT = 1");
-$db->query("ALTER TABLE mentori AUTO_INCREMENT = 1");
-$db->query("ALTER TABLE praktikanti AUTO_INCREMENT = 1");
+    public function runFaker()
+    {
 
-$faker = Faker\Factory::create();
+        $db = $this->database->connect();
 
-foreach(range(1,4) as $x)
-{
-    $db->query(
-    "INSERT INTO grupe (id, naziv) VALUES ('{$faker->unique()->numberBetween(1,4)}', '{$faker->city}')");
-}
+        $db->query("DELETE FROM praktikanti");
+        $db->query("DELETE FROM mentori");
+        $db->query("DELETE FROM grupe");
 
-$faker1 = Faker\Factory::create();
+        $db->query("ALTER TABLE grupe AUTO_INCREMENT = 1");
+        $db->query("ALTER TABLE mentori AUTO_INCREMENT = 1");
+        $db->query("ALTER TABLE praktikanti AUTO_INCREMENT = 1");
 
-foreach(range(1, 7) as $x)
-{
-    $db->query("INSERT INTO mentori (id, ime, prezime, email, telefon, id_grupe)
-    VALUES ('{$faker1->unique()->numberBetween(1,7)}', '{$faker1->firstName}', '{$faker1->lastName}', '{$faker1->email}', '{$faker1->phoneNumber}', '{$faker1->numberBetween(1,4)}')");
-}
+        $faker = \Faker\Factory::create();
 
-$faker2 = Faker\Factory::create();
+        foreach(range(1,4) as $x)
+        {
+            $db->query(
+            "INSERT INTO grupe (id, naziv) VALUES ('{$faker->unique()->numberBetween(1,4)}', '{$faker->city}')");
+        }
 
-foreach(range(1,15) as $x)
-{
-    $db->query("INSERT INTO praktikanti (id, ime, prezime, email, telefon, id_grupe, komentar)
-    VALUES ('{$faker2->unique()->numberBetween(1,15)}', '{$faker2->firstName}', '{$faker2->lastName}', '{$faker2->email}', '{$faker2->phoneNumber}', '{$faker2->numberBetween(1,4)}', '')");
+        $faker1 = \Faker\Factory::create();
+
+        foreach(range(1, 7) as $x)
+        {
+            $db->query("INSERT INTO mentori (id, ime, prezime, email, telefon, id_grupe)
+            VALUES ('{$faker1->unique()->numberBetween(1,7)}', '{$faker1->firstName}', '{$faker1->lastName}', '{$faker1->email}', '{$faker1->phoneNumber}', '{$faker1->numberBetween(1,4)}')");
+        }
+
+        $faker2 = \Faker\Factory::create();
+
+        foreach(range(1,15) as $x)
+        {
+            $db->query("INSERT INTO praktikanti (id, ime, prezime, email, telefon, id_grupe, komentar)
+            VALUES ('{$faker2->unique()->numberBetween(1,15)}', '{$faker2->firstName}', '{$faker2->lastName}', '{$faker2->email}', '{$faker2->phoneNumber}', '{$faker2->numberBetween(1,4)}', '')");
+        }
+    }
 }

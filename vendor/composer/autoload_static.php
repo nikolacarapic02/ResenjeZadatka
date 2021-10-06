@@ -26,6 +26,7 @@ class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
         'a' => 
         array (
             'api\\' => 4,
+            'additions\\' => 10,
         ),
         'P' => 
         array (
@@ -53,6 +54,10 @@ class ComposerStaticInitd42369f41957dbd017730c1cafe17cb5
         'api\\' => 
         array (
             0 => __DIR__ . '/../..' . '/api',
+        ),
+        'additions\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/additions',
         ),
         'Psr\\Container\\' => 
         array (

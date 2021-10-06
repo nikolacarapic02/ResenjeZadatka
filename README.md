@@ -13,6 +13,14 @@
 
 ### **Usage**
 
+- Use QuantoxPraksa.sql database dump in additions folder to create database on your computer.
+
+- Set the parameters for the database in the conig.php file in folder config.
+
+- Use the route below to populate the database with random data.
+```http
+GET /faker
+```
 - In a browser or other application launch environment, use one of the routes listed below.
 
 - Pay attention to whether the app is in the root directory or in one of subdirectories.

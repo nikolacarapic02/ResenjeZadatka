@@ -4,7 +4,8 @@
             "config\\":"config/",
             "models\\":"models/",
             "includes\\":"includes/",
-            "api\\":"api/"
+            "api\\":"api/",
+            "additions\\":"additions/"
         }
     },
     "require": {
