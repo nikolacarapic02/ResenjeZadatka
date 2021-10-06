@@ -81,7 +81,7 @@ class Grupe extends GrupaClass
                         "id"=> $id,
                         "naziv" => $naziv,
                         "praktikanti" => $praktikanti,
-                        "mentor" => $mentori
+                        "mentori" => $mentori
                     );
         
                     array_push($obj_arr["data"], $obj_items);
@@ -320,9 +320,17 @@ class Grupe extends GrupaClass
         
                     $obj_items = array(
                         "redni_broj" => $redni_broj, 
-                        "pozicija" => $pozicija,
-                            "ime" => $ime,
-                        "prezime" => $prezime
+                        "pozcija" => array(
+                            $pozicija => array(
+                                "id" => $id,
+                                "ime" => $ime,
+                                "prezime" => $prezime,
+                                "email" => $email,
+                                "telefon" => $telefon,
+                                "id_grupe" => $id_grupe,
+                                "naziv_grupe" => $naziv
+                            )
+                        )
                     );
         
                     array_push($obj_arr["data"], $obj_items);

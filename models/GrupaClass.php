@@ -19,6 +19,11 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $naziv;
     private $mentori;
     private $praktikanti;
+    private $ime;
+    private $prezime;
+    private $email;
+    private $telefon;
+    private $id_grupe;
     private $pozicija;
     private $redni_broj;
 
@@ -294,10 +299,10 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $start_from = ($this->page-1)*$rec_per_page;
 
-        $query = "SELECT @a:=@a+1 as 'redni_broj','Mentor' as 'pozicija', ime, prezime FROM mentori, ".$this->table." g, (SELECT @a:= 0) AS a
+        $query = "SELECT @a:=@a+1 as 'redni_broj','mentor' as 'pozicija', mentori.id, ime, prezime, email, telefon, id_grupe, g.naziv FROM mentori, ".$this->table." g, (SELECT @a:= 0) AS a
         WHERE g.id = id_grupe 
         UNION ALL
-        SELECT @a:=@a+1 as 'redni_broj','Praktikant' as 'Pozicija', ime, prezime FROM praktikanti, ".$this->table." g, (SELECT @a:= 0) AS a
+        SELECT @a:=@a+1 as 'redni_broj','praktikant' as 'pozicija', praktikanti.id, ime, prezime, email, telefon, id_grupe, g.naziv FROM praktikanti, ".$this->table." g, (SELECT @a:= 0) AS a
         WHERE g.id = id_grupe
         ORDER BY 'pozicija'
         LIMIT ".$start_from.", ".$rec_per_page;

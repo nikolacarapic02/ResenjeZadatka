@@ -4,7 +4,7 @@ namespace additions;
 
 use config\DB;
 
-require "../vendor/autoload.php";
+require __DIR__."/../vendor/autoload.php";
 
 class Faker{
 
