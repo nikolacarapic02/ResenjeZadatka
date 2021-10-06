@@ -17,11 +17,6 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Properties
     private $id;
     private $naziv;
-    private $ime;
-    private $prezime;
-    private $email;
-    private $telefon;
-    private $niz;
     private $mentori;
     private $praktikanti;
     private $pozicija;
@@ -75,6 +70,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
+        //Main query
+
         $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, ',', p.ime, ',', p.prezime, ',', p.email, ',', p.telefon))) as 'praktikanti', 
         GROUP_CONCAT(DISTINCT(CONCAT(m.id, ',', m.ime, ',', m.prezime, ',', m.email, ',', m.telefon))) as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe AND g.id = :id
@@ -84,21 +81,60 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt->bindParam(":id", $this->id);
 
-        if($stmt->execute())
-        {
-        if($stmt->rowCount() > 0)
-        {
-            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        //Query to check if the id exists
 
-            $this->id = $row["id"];
-            $this->naziv = $row["naziv"];
-            $this->mentori = $row["mentori"];
-            $this->praktikanti = $row["praktikanti"];
+        $query1 = "SELECT * FROM ".$this->table." g WHERE g.id = :id";
+
+        $stmt1 = $this->conn->prepare($query1);
+
+        $stmt1->bindParam(":id", $this->id);
+
+        //Query to check if the group has mentors and an interns
+
+        $query2 = "SELECT p.ime, m.ime
+        FROM grupe g, praktikanti p, mentori m
+        WHERE g.id = p.id_grupe AND g.id = m.id_grupe AND g.id = :id";
+
+        $stmt2 = $this->conn->prepare($query2);
+
+        $stmt2->bindParam(":id", $this->id);
+
+        if($stmt1->execute())
+        {
+            if($stmt1->rowCount() > 0)
+            {
+                if($stmt2->execute())
+                {
+                    if($stmt2->rowCount() > 0)
+                    {
+                        if($stmt->execute())
+                        {
+                            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+                            $this->id = $row["id"];
+                            $this->naziv = $row["naziv"];
+                            $this->mentori = $row["mentori"];
+                            $this->praktikanti = $row["praktikanti"];
+                        }
+                        else
+                        {
+                            throw new PDOException();
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(json_encode($this->err::status(404, "The group exists, but has no mentors or interns!!")));
+                    }
+                }
+                else
+                {
+                    throw new PDOException();
+                }
             }
             else
             {
-                throw new Exception(json_encode($this->err::status(404, "Id doesn't exist!!")));
-            }
+                throw new Exception(json_encode($this->err::status(404, "Group doesn't exist!!")));
+            } 
         }
         else
         {
@@ -189,6 +225,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Delete "grupe"
     public function delete()
     {
+        //Main query
+
         $this->err = new HTTPStatus();
 
         $query = "DELETE FROM ".$this->table." WHERE id=:id";
@@ -199,18 +237,48 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt->bindParam(":id", $this->id);
 
-        $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
+        //Query to check if id of group exists
+
+        $query1 = "SELECT g.id FROM ".$this->table." g WHERE g.id = :id";
+
         $stmt1 = $this->conn->prepare($query1);
+
+        $stmt1->bindParam(":id", $this->id);
+
+        //Query to check if the group has mentors or interns
+
+        $query2 = "SELECT p.ime
+        FROM praktikanti p, grupe g
+        WHERE g.id = p.id_grupe AND g.id=:id
+        UNION ALL
+        SELECT m.ime
+        FROM mentori m, grupe g
+        WHERE g.id = m.id_grupe AND g.id=:id";
+
+        $stmt2 = $this->conn->prepare($query2);
+
+        $stmt2->bindParam(":id", $this->id);
+        
         $stmt1->execute();
+
         if($stmt1->rowCount() > 0)
         {
-            if($stmt->execute())
+            $stmt2->execute();
+            
+            if($stmt2->rowCount() > 0)
             {
-                return true;
+                throw new Exception(json_encode($this->err::status(409, "The group cannot be deleted because it contains interns or mentors!!")));
             }
             else
             {
-                throw new PDOException();
+                if($stmt->execute())
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new PDOException();
+                }
             }
         }
         else
