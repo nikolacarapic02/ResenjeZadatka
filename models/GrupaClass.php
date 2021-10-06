@@ -19,6 +19,9 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $naziv;
     private $ime;
     private $prezime;
+    private $email;
+    private $telefon;
+    private $niz;
     private $mentori;
     private $praktikanti;
     private $pozicija;
@@ -50,10 +53,10 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.ime, ' ', p.prezime)),'') as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.ime, ' ', m.prezime)),'') as 'mentori' FROM ".$this->table." g, 
-        praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe 
-        GROUP BY g.id, g.naziv ORDER BY g.id ASC";
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, ',', p.ime, ',', p.prezime, ',', p.email, ',', p.telefon))) as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, ',', m.ime, ',', m.prezime, ',', m.email, ',', m.telefon))) as 'mentori' FROM ".$this->table." g, 
+        praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe
+        GROUP BY g.id, g.naziv";
 
         $stmt = $this->conn->prepare($query);
 
@@ -72,8 +75,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.ime, ' ', p.prezime)),'') as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.ime, ' ', m.prezime)),'') as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, ',', p.ime, ',', p.prezime, ',', p.email, ',', p.telefon))) as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, ',', m.ime, ',', m.prezime, ',', m.email, ',', m.telefon))) as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe AND g.id = :id
         GROUP BY g.id, g.naziv LIMIT 0,1";
 
