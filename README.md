@@ -15,13 +15,13 @@
 
 - Use QuantoxPraksa.sql database dump in additions folder to create database on your computer.
 
-- Set the parameters for the database in the conig.php file in folder config.
+- Set the parameters for the database in the config.php file in folder config.
 
-- Use the route below to populate the database with random data.
+- Use the route below in your browser or other application launch environment to populate the database with random data.
 ```http
 GET /faker
 ```
-- In a browser or other application launch environment, use one of the routes listed below.
+- In a browser or other application launch environment, use one of the routes listed in the Api Reference section.
 
 - Pay attention to whether the app is in the root directory or in one of subdirectories.
 
@@ -172,6 +172,8 @@ GET /grupe/listing                 //Default: Loads the page 1
 
 ### **Create**
 
+<!-- During a POST request, a JSON object is sent, not form data!! -->
+
 ```http
 POST /praktikanti/create
 POST /mentori/create
@@ -274,6 +276,23 @@ DELETE /grupe/delete
 [
     {  
         "id":"int"      //Id must have a value         
+    }
+]
+```
+
+### **Faker**
+
+```http
+GET /faker
+```
+
+- Response
+
+```json
+[
+    {  
+        "code": 200,
+        "message": "The database was successfully filled!!" 
     }
 ]
 ```
