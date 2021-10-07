@@ -54,8 +54,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|',p.komentar)) SEPARATOR '|') as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|',p.komentar)) ORDER BY p.id SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) ORDER BY m.id SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe
         GROUP BY g.id, g.naziv";
 
@@ -78,8 +78,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         //Main query
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) SEPARATOR '|') as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) ORDER BY p.id SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) ORDER BY m.id SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe AND g.id = :id
         GROUP BY g.id, g.naziv LIMIT 0,1";
 
@@ -300,8 +300,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $start_from = ($this->page-1)*$rec_per_page;
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) SEPARATOR '|') as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) ORDER BY p.id SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) ORDER BY m.id SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe
         GROUP BY g.id, g.naziv
         LIMIT ".$start_from.", ".$rec_per_page;
