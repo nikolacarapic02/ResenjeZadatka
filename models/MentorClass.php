@@ -267,7 +267,7 @@ class MentorClass extends AbstractPravila implements PravilaInterface
         $this->err = new HTTPStatus();
 
         $query = "UPDATE praktikanti, mentori 
-        SET komentar = CONCAT(komentar,char(10),:komentar,' napisao/la: ',mentori.ime,' ',mentori.prezime,'; datum - ',CURRENT_DATE(),', vreme - ',CURRENT_TIME()) 
+        SET komentar = CONCAT(komentar,char(10),:komentar,' napisao/la: ',mentori.ime,' ',mentori.prezime,'; datum: ',CURRENT_DATE(),', vreme: ',CURRENT_TIME()) 
         WHERE praktikanti.id = :id_p AND mentori.id = :id_m AND praktikanti.id_grupe = mentori.id_grupe";
 
         $stmt = $this->conn->prepare($query);

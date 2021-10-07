@@ -47,19 +47,20 @@ class Grupe extends GrupaClass
                 {
                     extract($row);
 
-                    $arr_p = explode(",",trim($praktikanti,'"'));
-                    $arr_m = explode(",",trim($mentori,'"'));
+                    $arr_p = explode("|",trim($praktikanti,'"'));
+                    $arr_m = explode("|",trim($mentori,'"'));
 
                     $praktikanti = array();
 
-                    for($i=0;$i<count($arr_p);$i=$i+5)
+                    for($i=0;$i<count($arr_p);$i=$i+6)
                     {
                         array_push($praktikanti,array(
                             "id" => $arr_p[$i],
                             "ime"  => $arr_p[$i+1],
                             "prezime" => $arr_p[$i+2],
                             "email" => $arr_p[$i+3],
-                            "telefon" => $arr_p[$i+4]
+                            "telefon" => $arr_p[$i+4],
+                            "komentar" => $arr_p[$i+5]
                         ));
                     }
 
@@ -122,19 +123,20 @@ class Grupe extends GrupaClass
 
             $obj->readSingle();
 
-            $arr_p = explode(",",trim($obj->praktikanti,'"'));
-            $arr_m = explode(",",trim($obj->mentori,'"'));
+            $arr_p = explode("|",trim($obj->praktikanti,'"'));
+            $arr_m = explode("|",trim($obj->mentori,'"'));
 
             $praktikanti = array();
 
-            for($i=0;$i<count($arr_p);$i=$i+5)
+            for($i=0;$i<count($arr_p);$i=$i+6)
             {
                 array_push($praktikanti,array(
                     "id" => $arr_p[$i],
                     "ime"  => $arr_p[$i+1],
                     "prezime" => $arr_p[$i+2],
                     "email" => $arr_p[$i+3],
-                    "telefon" => $arr_p[$i+4]
+                    "telefon" => $arr_p[$i+4],
+                    "komentar" => $arr_p[$i+5]
                 ));
             }
 
@@ -317,20 +319,42 @@ class Grupe extends GrupaClass
                 while($row = $result->fetch(\PDO::FETCH_ASSOC))
                 {
                     extract($row);
+
+                    $arr_p = explode("|",trim($praktikanti,'"'));
+                    $arr_m = explode("|",trim($mentori,'"'));
+
+                    $praktikanti = array();
+
+                    for($i=0;$i<count($arr_p);$i=$i+6)
+                    {
+                        array_push($praktikanti,array(
+                            "id" => $arr_p[$i],
+                            "ime"  => $arr_p[$i+1],
+                            "prezime" => $arr_p[$i+2],
+                            "email" => $arr_p[$i+3],
+                            "telefon" => $arr_p[$i+4],
+                            "komentar" => $arr_p[$i+5]
+                        ));
+                    }
+
+                    $mentori = array();
+
+                    for($i=0;$i<count($arr_m);$i=$i+5)
+                    {
+                        array_push($mentori,array(
+                            "id" => $arr_m[$i],
+                            "ime"  => $arr_m[$i+1],
+                            "prezime" => $arr_m[$i+2],
+                            "email" => $arr_m[$i+3],
+                            "telefon" => $arr_m[$i+4]
+                        ));
+                    }
         
                     $obj_items = array(
-                        "redni_broj" => $redni_broj, 
-                        "pozcija" => array(
-                            $pozicija => array(
-                                "id" => $id,
-                                "ime" => $ime,
-                                "prezime" => $prezime,
-                                "email" => $email,
-                                "telefon" => $telefon,
-                                "id_grupe" => $id_grupe,
-                                "naziv_grupe" => $naziv
-                            )
-                        )
+                        "id_gupe" => $id,
+                        "naziv" => $naziv,
+                        "praktikanti" => $praktikanti,
+                        "mentori" => $mentori
                     );
         
                     array_push($obj_arr["data"], $obj_items);

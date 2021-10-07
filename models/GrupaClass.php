@@ -24,6 +24,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     private $email;
     private $telefon;
     private $id_grupe;
+    private $komentar;
     private $pozicija;
     private $redni_broj;
 
@@ -53,8 +54,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, ',', p.ime, ',', p.prezime, ',', p.email, ',', p.telefon))) as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.id, ',', m.ime, ',', m.prezime, ',', m.email, ',', m.telefon))) as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|',p.komentar)) SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe
         GROUP BY g.id, g.naziv";
 
@@ -77,8 +78,8 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         //Main query
 
-        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, ',', p.ime, ',', p.prezime, ',', p.email, ',', p.telefon))) as 'praktikanti', 
-        GROUP_CONCAT(DISTINCT(CONCAT(m.id, ',', m.ime, ',', m.prezime, ',', m.email, ',', m.telefon))) as 'mentori' FROM ".$this->table." g, 
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
         praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe AND g.id = :id
         GROUP BY g.id, g.naziv LIMIT 0,1";
 
@@ -295,16 +296,14 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
     //Listing "grupe"
     public function listing()
     {
-        $rec_per_page = 5;
+        $rec_per_page = 2;
 
         $start_from = ($this->page-1)*$rec_per_page;
 
-        $query = "SELECT @a:=@a+1 as 'redni_broj','mentor' as 'pozicija', mentori.id, ime, prezime, email, telefon, id_grupe, g.naziv FROM mentori, ".$this->table." g, (SELECT @a:= 0) AS a
-        WHERE g.id = id_grupe 
-        UNION ALL
-        SELECT @a:=@a+1 as 'redni_broj','praktikant' as 'pozicija', praktikanti.id, ime, prezime, email, telefon, id_grupe, g.naziv FROM praktikanti, ".$this->table." g, (SELECT @a:= 0) AS a
-        WHERE g.id = id_grupe
-        ORDER BY 'pozicija'
+        $query = "SELECT g.id, g.naziv,GROUP_CONCAT(DISTINCT(CONCAT(p.id, '|', p.ime, '|', p.prezime, '|', p.email, '|', p.telefon, '|', p.komentar)) SEPARATOR '|') as 'praktikanti', 
+        GROUP_CONCAT(DISTINCT(CONCAT(m.id, '|', m.ime, '|', m.prezime, '|', m.email, '|', m.telefon)) SEPARATOR '|') as 'mentori' FROM ".$this->table." g, 
+        praktikanti p, mentori m WHERE g.id=p.id_grupe AND g.id = m.id_grupe
+        GROUP BY g.id, g.naziv
         LIMIT ".$start_from.", ".$rec_per_page;
 
         $stmt = $this->conn->prepare($query);
