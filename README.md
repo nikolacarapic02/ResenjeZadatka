@@ -4,7 +4,7 @@
 
 ### **Git clone**
 
-- In terminal access to your local server environment root directory.
+- In terminal access to your local server environment root directory or another folder where you want to make a clone.
 
 - Run
 ```
@@ -83,7 +83,7 @@ GET /praktikanti/read
         "id_grupe": "int",
         "naziv_grupe": "string",
         "komentar": "string"
-    },...
+    },
 ]
 ```
 
@@ -103,7 +103,7 @@ GET /mentori/read
         "telefon": "string",
         "id_grupe": "int",
         "naziv_grupe": "string"
-    },...
+    },
 ]
 ```
 
@@ -126,7 +126,7 @@ GET /grupe/read
                 "email": "string",
                 "telefon": "string",
                 "komentar": "string"
-            },...
+            },
         ],
         "mentori": [
             {
@@ -135,9 +135,9 @@ GET /grupe/read
                 "prezime": "string",
                 "email": "string",
                 "telefon": "string"
-            },...
+            },
         ]
-    },...
+    },
 ]
 ```
 
@@ -206,7 +206,7 @@ GET /grupe/read_single                  //Default: Loads page for id=1
                 "email": "string",
                 "telefon": "string",
                 "komentar": "string"
-            },...
+            },
         ],
         "mentori": [
             {
@@ -215,7 +215,7 @@ GET /grupe/read_single                  //Default: Loads page for id=1
                 "prezime": "string",
                 "email": "string",
                 "telefon": "string"
-            },...
+            },
         ]
     }
 ]
@@ -243,7 +243,7 @@ GET /grupe/listing                 //Default: Loads the page 1
                 "email": "string",
                 "telefon": "string",
                 "komentar": "string"
-            },...
+            },
         ],
         "mentori": [
             {
@@ -252,9 +252,9 @@ GET /grupe/listing                 //Default: Loads the page 1
                 "prezime": "string",
                 "email": "string",
                 "telefon": "string"
-            },...
+            },
         ]
-    },...
+    },
 ]
 ```
 
