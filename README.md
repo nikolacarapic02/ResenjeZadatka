@@ -21,13 +21,11 @@
 ```http
 GET /faker
 ```
-- In a browser or other application launch environment, use one of the routes listed in the Api Reference section.
+- In a browser or other application launch environment, use one of the routes listed in the [Api Reference](#api-reference) section.
 
 - Pay attention to whether the app is in the root directory or in one of subdirectories.
 
 ## API Endpoints
-
-### **api**
 
 - praktikanti
 ```json
@@ -172,7 +170,7 @@ GET /grupe/listing                 //Default: Loads the page 1
 
 ### **Create**
 
-<!-- During a POST request, a JSON object is sent, not form data!! -->
+* During the POST request, the JSON object is sent, not the form data!!
 
 ```http
 POST /praktikanti/create
