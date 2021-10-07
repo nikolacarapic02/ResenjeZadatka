@@ -68,6 +68,26 @@ GET /faker
 
 ```http
 GET /praktikanti/read
+```
+
+- Response
+
+```json
+[
+    {
+        "id": "int",
+        "ime": "string",
+        "prezime": "string",
+        "email": "string",
+        "telefon": "string",
+        "id_grupe": "int",
+        "naziv_grupe": "string",
+        "komentar": "string"
+    },...
+]
+```
+
+```http
 GET /mentori/read
 ```
 
@@ -83,7 +103,7 @@ GET /mentori/read
         "telefon": "string",
         "id_grupe": "int",
         "naziv_grupe": "string"
-    }
+    },...
 ]
 ```
 
@@ -98,9 +118,26 @@ GET /grupe/read
     {
         "id": "int",
         "naziv": "string",
-        "mentori": "string",
-        "praktikanti": "string"
-    }
+        "praktikanti": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string",
+                "komentar": "string"
+            },...
+        ],
+        "mentori": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string"
+            },...
+        ]
+    },...
 ]
 ```
 
@@ -109,7 +146,26 @@ GET /grupe/read
 ```http
 GET /praktikanti/read_single/id
 GET /praktikanti/read_single            //Default: Loads page for id=1
+```
 
+- Response
+
+```json
+[
+    {
+        "id": "int",
+        "ime": "string",
+        "prezime": "string",
+        "email": "string",
+        "telefon": "string",
+        "id_grupe": "int",
+        "naziv_grupe": "string",
+        "komentar": "string"
+    }
+]
+```
+
+```http
 GET /mentori/read_single/id
 GET /mentori/read_single                //Default: Loads page for id=1
 ```
@@ -142,8 +198,25 @@ GET /grupe/read_single                  //Default: Loads page for id=1
     {
         "id": "int",
         "naziv": "string",
-        "mentori": "string",
-        "praktikanti": "string"
+        "praktikanti": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string",
+                "komentar": "string"
+            },...
+        ],
+        "mentori": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string"
+            },...
+        ]
     }
 ]
 ```
@@ -160,11 +233,28 @@ GET /grupe/listing                 //Default: Loads the page 1
 ```json
 [
     {
-        "redni_broj": "int",
-        "pozicija": "string",
-        "ime": "string",
-        "prezime": "string"
-    }
+        "id": "int",
+        "naziv": "string",
+        "praktikanti": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string",
+                "komentar": "string"
+            },...
+        ],
+        "mentori": [
+            {
+                "id": "int",
+                "ime": "string",
+                "prezime": "string",
+                "email": "string",
+                "telefon": "string"
+            },...
+        ]
+    },...
 ]
 ```
 
