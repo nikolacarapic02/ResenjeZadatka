@@ -161,20 +161,13 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
 
         $stmt->bindParam(":naziv", $this->naziv);
 
-        if(empty($this->naziv))
+        if($stmt->execute())
         {
-            throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!"))); 
+            return true;
         }
-        else 
+        else
         {
-            if($stmt->execute())
-            {
-                return true;
-            }
-            else
-            {
-                throw new PDOException();
-            }
+            throw new PDOException();
         }
     }
 
@@ -195,10 +188,15 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
             {
                 if(isset($this->naziv))
                 {
-
-                    $this->naziv = strip_tags($this->naziv);
-                    $query = $query . "naziv = '".$this->naziv."',";
-                    
+                    if(empty($this->naziv))
+                    {
+                        throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                    }
+                    else
+                    {
+                        $this->naziv = strip_tags($this->naziv);
+                        $query = $query . "naziv = '".$this->naziv."',";
+                    } 
 
                     $query = rtrim($query,",") . " WHERE id = ".$this->id;
                 }
@@ -214,7 +212,7 @@ class GrupaClass extends AbstractPravila implements PravilaInterface
         }
         else
         {
-            throw new Exception(json_encode($this->err::status(404, "id is not set!!")));
+            throw new Exception(json_encode($this->err::status(404, "Id is not set!!")));
         }
 
         $stmt = $this->conn->prepare($query);

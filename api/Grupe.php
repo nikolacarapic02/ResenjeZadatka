@@ -187,8 +187,22 @@ class Grupe extends GrupaClass
             $obj = new GrupaClass($db);
 
             $data = json_decode(file_get_contents("php://input"));
-
-            $obj->naziv = $data->naziv;
+            
+            if(isset($data->naziv))
+            {
+                if(empty($data->naziv))
+                {
+                    throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!")));
+                }
+                else
+                {
+                    $obj->naziv = $data->naziv;
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(409, "All columns must be set!!")));
+            }
 
             if($obj->create())
             {
@@ -227,7 +241,14 @@ class Grupe extends GrupaClass
 
             if(isset($data->id))
             {
-                $obj->id = $data->id;   
+                if(is_numeric($data->id))
+                {
+                    $obj->id = $data->id;
+                }  
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "Id must be numeric!!")));
+                } 
             }
 
             if(isset($data->naziv))
@@ -270,7 +291,21 @@ class Grupe extends GrupaClass
         
             $data = json_decode(file_get_contents("php://input"));
         
-            $obj->id = $data->id;
+            if(isset($data->id))
+            {
+                if(is_numeric($data->id))
+                {
+                    $obj->id = $data->id;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "Id must be numeric!!")));
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(409, "Id is not set!!")));
+            }
         
             if($obj->delete())
             {

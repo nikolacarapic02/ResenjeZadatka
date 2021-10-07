@@ -133,11 +133,33 @@ class Mentori extends MentorClass
 
             $data = json_decode(file_get_contents("php://input"));
 
-            $obj->ime = $data->ime;
-            $obj->prezime = $data->prezime;
-            $obj->email = $data->email;
-            $obj->telefon = $data->telefon;
-            $obj->id_grupe = $data->id_grupe;
+            if(isset($data->ime) && isset($data->prezime) && isset($data->email) && isset($data->telefon) && isset($data->id_grupe))
+            {
+                if(empty($data->ime) || empty($data->prezime) || empty($data->email) || empty($data->telefon) || empty($data->id_grupe))
+                {
+                    throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!")));
+                }
+                else
+                {
+                    $obj->ime = $data->ime;
+                    $obj->prezime = $data->prezime;
+                    $obj->email = $data->email;
+                    $obj->telefon = $data->telefon;
+                    
+                    if(is_numeric($data->id_grupe))
+                    {
+                        $obj->id_grupe = $data->id_grupe;
+                    }
+                    else
+                    {
+                        throw new Exception(json_encode($this->err::status(409, "id_grupe must be numeric!!")));
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(409, "All columns must be set!!")));
+            }
 
             if($obj->create())
             {
@@ -176,7 +198,14 @@ class Mentori extends MentorClass
         
             if(isset($data->id))
             {
-                $obj->id = $data->id;   
+                if(is_numeric($data->id))
+                {
+                    $obj->id = $data->id;   
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "Id must be numeric!!")));
+                }
             }
         
             if(isset($data->ime))
@@ -201,7 +230,14 @@ class Mentori extends MentorClass
         
             if(isset($data->id_grupe))
             {
-                $obj->id_grupe = $data->id_grupe;
+                if(is_numeric($data->id_grupe))
+                {
+                    $obj->id_grupe = $data->id_grupe;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "id_grupe must be numeric!!")));
+                }
             }
         
             if($obj->update())
@@ -239,7 +275,21 @@ class Mentori extends MentorClass
         
             $data = json_decode(file_get_contents("php://input"));
         
-            $obj->id = $data->id;
+            if(isset($data->id))
+            {
+                if(is_numeric($data->id))
+                {
+                    $obj->id = $data->id;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "Id must be numeric!!")));
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(409, "Id is not set!!")));
+            }
         
             if($obj->delete())
             {
@@ -276,9 +326,32 @@ class Mentori extends MentorClass
         
             $data = json_decode(file_get_contents("php://input"));
         
-            $obj->komentar = $data->komentar;
-            $obj->id_p = $data->id_p;
-            $obj->id_m = $data->id_m;
+            if(isset($data->komentar) && isset($data->id_p) && isset($data->id_m))
+            {
+                $obj->komentar = $data->komentar;
+
+                if(is_numeric($data->id_p))
+                {
+                    $obj->id_p = $data->id_p;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "id_p must be numeric!!")));
+                }
+
+                if(is_numeric($data->id_m))
+                {
+                    $obj->id_m = $data->id_m;
+                }
+                else
+                {
+                    throw new Exception(json_encode($this->err::status(409, "id_m must be numeric!!")));
+                }
+            }
+            else
+            {
+                throw new Exception(json_encode($this->err::status(409, "All columns must be set!!")));
+            }
         
             if($obj->createKomentar())
             {

@@ -131,12 +131,8 @@ class PraktikantClass implements PravilaInterface
         $query1 = "SELECT id FROM grupe WHERE id=".$this->id_grupe;
         $stmt1 = $this->conn->prepare($query1);
         $stmt1->execute();
-
-        if(empty($this->ime) || empty($this->prezime) || empty($this->email) || empty($this->telefon) || empty($this->id_grupe))
-        {
-            throw new Exception(json_encode($this->err::status(409, "All columns must have a value!!"))); 
-        }
-        else if($stmt1->rowCount() > 0)
+        
+        if($stmt1->rowCount() > 0)
         { 
             if($stmt->execute())
             {
@@ -172,35 +168,81 @@ class PraktikantClass implements PravilaInterface
                 {
                     if(isset($this->ime))
                     {
-                        $this->ime = strip_tags($this->ime);
-                        $query = $query . "ime = '".$this->ime."',";
+                        if(empty($this->ime))
+                        {
+                            throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                        }
+                        else
+                        {
+                            $this->ime = strip_tags($this->ime);
+                            $query = $query . "ime = '".$this->ime."',";
+                        }
                     }
                     if(isset($this->prezime))
                     {
-                        $this->prezime = strip_tags($this->prezime);
-                        $query = $query . "prezime = '".$this->prezime."',";
+                        if(empty($this->prezime))
+                        {
+                            throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                        }
+                        else
+                        {
+                            $this->prezime = strip_tags($this->prezime);
+                            $query = $query . "prezime = '".$this->prezime."',";
+                        }
                     }
                     if(isset($this->email))
                     {
-                        $this->email = strip_tags($this->email);
-                        $query = $query . "email = '".$this->email."',";
+                        if(empty($this->email))
+                        {
+                            throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                        }
+                        else
+                        {
+                            $this->email = strip_tags($this->email);
+                            $query = $query . "email = '".$this->email."',";
+                        }
                     }
                     if(isset($this->telefon))
                     {
-                        $this->telefon = strip_tags($this->telefon);
-                        $query = $query . "telefon = '".$this->telefon."',";
+                        if(empty($this->telefon))
+                        {
+                            throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                        }
+                        else
+                        {
+                            $this->telefon = strip_tags($this->telefon);
+                            $query = $query . "telefon = '".$this->telefon."',";
+                        }
                     }
                     if(isset($this->id_grupe))
                     {
-                        $this->id_grupe = strip_tags($this->id_grupe);
-                        $query = $query . "id_grupe = '".$this->id_grupe."',";
+                        $query2 = "SELECT g.naziv FROM ".$this->table." p, grupe g WHERE g.id=".$this->id_grupe;
+                        $stmt2 = $this->conn->prepare($query2);
+                        $stmt2->execute();
+
+                        if($stmt2->rowCount() > 0)
+                        {
+                            if(empty($this->id_grupe))
+                            {
+                                throw new Exception(json_encode($this->err::status(409, "Columns must have a value!!")));
+                            }
+                            else
+                            {
+                                $this->id_grupe = strip_tags($this->id_grupe);
+                                $query = $query . "id_grupe = '".$this->id_grupe."',";
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception(json_encode($this->err::status(409, "id_grupe doesn't exist!!")));
+                        }
                     }
 
                     $query = rtrim($query,",") . " WHERE id = ".$this->id;
                 }
                 else
                 {
-                    throw new Exception(json_encode($this->err::status(404, "You must fill at least one column!!")));
+                    throw new Exception(json_encode($this->err::status(409, "You must fill at least one column!!")));
                 }
             }
             else
@@ -210,7 +252,7 @@ class PraktikantClass implements PravilaInterface
         }
         else
         {
-            throw new Exception(json_encode($this->err::status(404, "id is not set!!")));
+            throw new Exception(json_encode($this->err::status(404, "Id is not set!!")));
         }
 
         $stmt = $this->conn->prepare($query);
@@ -230,6 +272,8 @@ class PraktikantClass implements PravilaInterface
     {
         $this->err = new HTTPStatus();
 
+        //Main query
+
         $query = "DELETE FROM ".$this->table." WHERE id = :id";
 
         $stmt = $this->conn->prepare($query);
@@ -241,10 +285,11 @@ class PraktikantClass implements PravilaInterface
         $query1 = "SELECT id FROM ".$this->table." WHERE id=".$this->id;
         $stmt1 = $this->conn->prepare($query1);
         $stmt1->execute();
+
         if($stmt1->rowCount() > 0)
         {
             if($stmt->execute())
-            {
+            {  
                 return true;
             }
             else
