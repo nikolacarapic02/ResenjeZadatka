@@ -121,7 +121,7 @@ class Mentori extends MentorClass
 
     //Create mentori
 
-    public function mentoriCreate()
+    public function mentorCreate()
     {
         try
         {
@@ -184,7 +184,7 @@ class Mentori extends MentorClass
 
     //Update mentori
 
-    public function mentoriUpdate()
+    public function mentorUpdate()
     {
         try{
 
@@ -263,7 +263,7 @@ class Mentori extends MentorClass
 
     //Delete mentori
 
-    public function mentoriDelete()
+    public function mentorDelete()
     {
         try{
 
@@ -314,7 +314,7 @@ class Mentori extends MentorClass
 
     //Komentar mentori
 
-    public function mentoriKomentar()
+    public function mentorKomentar()
     {
         try{
 

@@ -90,7 +90,7 @@ $router->post('/praktikanti/create', function(){
 
 $router->post('/mentori/create', function(){
     $obj = new Mentori();
-    return $obj->mentoriCreate();
+    return $obj->mentorCreate();
 });
 
 $router->post('/grupe/create', function(){
@@ -108,12 +108,12 @@ $router->put('/praktikanti/update', function(){
 
 $router->put('/mentori/update', function(){
     $obj = new Mentori();
-    return $obj->mentoriUpdate();
+    return $obj->mentorUpdate();
 });
 
 $router->put('/mentori/komentar', function(){
     $obj = new Mentori();
-    return $obj->mentoriKomentar();
+    return $obj->mentorKomentar();
 });
 
 $router->put('/grupe/update', function(){
@@ -130,7 +130,7 @@ $router->delete('/praktikanti/delete', function(){
 
 $router->delete('/mentori/delete', function(){
     $obj = new Mentori();
-    return $obj->mentoriDelete();
+    return $obj->mentorDelete();
 });
 
 $router->delete('/grupe/delete', function(){
